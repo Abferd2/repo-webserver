@@ -27,18 +27,7 @@ const connectDB = async() => {
         useUnifiedTopology: true,
         useCreateIndex: true,
         useFindAndModify: false,
-        server: {
-            socketOptions: {
-                keepAlive: 300000,
-                connectTimeoutMS: 30000
-            }
-        },
-        replset: {
-            socketOptions: {
-                keepAlive: 300000,
-                connectTimeoutMS: 30000
-            }
-        }
+
     });
     console.log('conection');
 }
