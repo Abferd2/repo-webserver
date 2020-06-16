@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+const MongoClient = require('mongodb').MongoClient;
 
 require('./routes/usuario');
 
@@ -30,6 +30,7 @@ const connectDB = async() => {
 
     });
     console.log('conection');
+
 }
 
 connectDB();
