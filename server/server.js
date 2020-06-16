@@ -36,6 +36,12 @@ connectDB();
 //new-admin
 app.use(require('./routes/usuario'));
 
+app.get('/ports', (req, res) => {
+    res.json({
+        port: process.env.PORT
+    });
+})
+
 app.listen(process.env.PORT, () => {
     console.log('escuchando puerto: ', process.env.PORT);
 })
