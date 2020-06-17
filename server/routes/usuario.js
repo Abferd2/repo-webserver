@@ -9,23 +9,17 @@ const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 const someOtherPlaintextPassword = 'not_bacon';
 
+const { verificaToken, verificarAdminRole } = require('../middlewares/autentication');
+
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
 app.use(bodyParser.json());
 
-// Configurar cabeceras y cors
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
-});
 
-
-app.get('/usuario', (req, res) => {
+app.get('/usuario', verificaToken, (req, res) => {
     let desde = req.query.desde || 0;
     desde = Number(desde);
     let limit = req.query.limit || 5;
@@ -56,13 +50,14 @@ app.get('/usuario', (req, res) => {
             })
         })
 })
-app.post('/usuario', (req, res) => {
+app.post('/usuario', [verificaToken, verificarAdminRole], (req, res) => {
     let body = req.body;
     let usuario = new Usuario({
         nombre: body.nombre,
+        edad: body.edad,
         email: body.email,
         password: bcrypt.hashSync(body.password, saltRounds),
-        role: body.role
+        rol: body.rol
     })
 
     usuario.save((err, usuarioDB) => {
@@ -81,10 +76,10 @@ app.post('/usuario', (req, res) => {
     })
 
 })
-app.put('/usuario/:id', (req, res) => {
+app.put('/usuario/:id', [verificaToken, verificarAdminRole], (req, res) => {
     let id = req.params.id;
 
-    let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
+    let body = _.pick(req.body, ['nombre', 'edad', 'email', 'img', 'rol', 'estado']);
 
     //delete body.password;
     //delete body.google;
@@ -106,7 +101,7 @@ app.put('/usuario/:id', (req, res) => {
     })
 })
 
-app.delete('/admin_usuario/:id', (req, res) => {
+app.delete('/admin_usuario/:id', [verificaToken, verificarAdminRole], (req, res) => {
     let id = req.params.id;
     Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
         if (err) {
@@ -128,7 +123,7 @@ app.delete('/admin_usuario/:id', (req, res) => {
         })
     });
 })
-app.delete('/usuario/:id', (req, res) => {
+app.delete('/usuario/:id', [verificaToken, verificarAdminRole], (req, res) => {
     let id = req.params.id;
     let data = {
         estado: false

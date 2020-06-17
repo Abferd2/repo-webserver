@@ -5,7 +5,16 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
 
-require('./routes/usuario');
+require('./routes/index');
+
+// Configurar cabeceras y cors
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -27,7 +36,7 @@ const connectDB = async() => {
 
 connectDB();
 
-app.use(require('./routes/usuario'));
+app.use(require('./routes/index'));
 
 app.get('/ports', (req, res) => {
     res.json({

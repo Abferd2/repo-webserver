@@ -19,3 +19,14 @@ if (process.env.NODE_ENV === 'DEV') {
 }
 
 process.env.URLDB = urlDB;
+
+//==========================
+//  vencimiento token
+//==========================
+let time = 60 * 60 * 24 * 30 * 12;
+process.env.TIMETOKEN = time;
+
+//==========================
+//  SEED
+//==========================
+process.env.NODE_SEED = process.env.NODE_SEED || 'seed-dev-demo';

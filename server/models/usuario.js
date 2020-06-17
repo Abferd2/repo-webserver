@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let rolesValidos = {
-    values: ['ADMIN_ROLE', 'USER_ROLE'],
+    values: ['ADMIN_ROL', 'USER_ROL'],
     message: '{VALUE} no es un rol valido'
 }
 
@@ -11,6 +11,10 @@ let usuarioSchema = new Schema({
     nombre: {
         type: String,
         required: [true, 'El nombre es necesario']
+    },
+    edad: {
+        type: Number,
+        required: false
     },
     email: {
         type: String,
@@ -25,9 +29,9 @@ let usuarioSchema = new Schema({
         type: String,
         required: false
     },
-    role: {
+    rol: {
         type: String,
-        default: 'USER_ROLE',
+        default: 'USER_ROL',
         enum: rolesValidos
     },
     estado: {
