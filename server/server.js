@@ -13,13 +13,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-/*mongoose.connect('mongodb://localhost:27017/cafe',
-    (err, res) => {
-        if (err) throw err;
-        console.log('base de datos online', res);
-
-    });*/
-//mongodb+srv://new-admin:T7fEUuHNgqPa3Rvn@cluster0-al2mu.mongodb.net/cafe
 const connectDB = async() => {
     //let conection = await mongoose.connect('mongodb://localhost:27017/cafe', {
     let conection = await mongoose.connect(process.env.URLDB, {
@@ -30,12 +23,10 @@ const connectDB = async() => {
 
     });
     console.log('conection');
-
 }
 
 connectDB();
-//T7fEUuHNgqPa3Rvn
-//new-admin
+
 app.use(require('./routes/usuario'));
 
 app.get('/ports', (req, res) => {
