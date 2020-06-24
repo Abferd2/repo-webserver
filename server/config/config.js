@@ -30,3 +30,8 @@ process.env.TIMETOKEN = time;
 //  SEED
 //==========================
 process.env.NODE_SEED = process.env.NODE_SEED || 'seed-dev-demo';
+
+//==========================
+//  GOOGLE CLIENT
+//==========================
+process.env.GOOGLE_CLI = process.env.GOOGLE_CLI || '1075211621180-bsh4poosbl7f3i0qhrnk9daug4dvga1t.apps.googleusercontent.com';

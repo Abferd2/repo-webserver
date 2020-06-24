@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
+const path = require('path');
 
 require('./routes/index');
 
@@ -20,7 +21,9 @@ app.use((req, res, next) => {
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
+
 
 const connectDB = async() => {
     //let conection = await mongoose.connect('mongodb://localhost:27017/cafe', {
@@ -36,13 +39,16 @@ const connectDB = async() => {
 
 connectDB();
 
+app.use(express.static(path.resolve(__dirname, '../public')));
+
 app.use(require('./routes/index'));
+
 
 app.get('/ports', (req, res) => {
     res.json({
         port: process.env.PORT
     });
-})
+});
 
 app.listen(process.env.PORT, () => {
     console.log('escuchando puerto: ', process.env.PORT);
